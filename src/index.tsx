@@ -8,15 +8,17 @@ import * as serviceWorker from './serviceWorker';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import axios from 'axios';
 
+const errorStatuses = [400,401,403];
+
 axios.interceptors.response.use(
   response => {
     return response;
   },
   function(error) {
-    if (error.response.status === 400) {
-      alert(error.response.data?.data);
-    }
-    return Promise.reject(error.response);
+      if(errorStatuses.includes(error.response?.status)) alert(error.response?.data?.message);
+      else alert(error.message);
+
+      return Promise.reject(error);
   }
 );
 
